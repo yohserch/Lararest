@@ -22,5 +22,8 @@ $factory->define(User::class, function (Faker $faker) {
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),
+        'verify'  => $verify = $faker->randomElement([User::VERIFIED_USER, User::NOT_VERIFIED_USER]),
+        'verification_token' =>  $verify == User::VIRIFIED_USER ? null : User::generateVerificationToken(),
+        'admin' => $faker->randomElement([User::ADMIN_USER, User::REGULAR_USER])
     ];
 });
