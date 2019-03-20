@@ -31,7 +31,7 @@ class Product extends Model
     }
 
     public function seller() {
-        return $this->belongsTo(Seller:class);
+        return $this->belongsTo(Seller::class);
     }
 
     public function transactions() {

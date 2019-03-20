@@ -50,11 +50,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public isVerified() {
+    public function isVerified() {
         return $this->verified == USER::VERIFIED_USER;
     }
 
-    public isAdmin() {
+    public function isAdmin() {
         return $this->admin == USER::ADMIN_USER;
     }
 
