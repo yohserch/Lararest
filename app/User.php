@@ -63,4 +63,20 @@ class User extends Authenticatable
     public static function generateVerificationToken() {
         return str_random(40);
     }
+
+    /**
+     * Mutadores y accesores
+     */
+
+    public function setNameAttribute($value) {
+        $this->attributes['name'] = strtolower($value);
+    }
+
+    public function setEmailAttribute($value) {
+        $this->attributes['email'] = strtolower($value)
+    }
+
+    public function getNameAttribute($value) {
+        return ucwords($valor);
+    }
 }
