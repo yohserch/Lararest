@@ -1,9 +1,11 @@
 <?php
 
+use App\User;
+use App\Seller;
 use Faker\Generator as Faker;
 
 $factory->define(App\Transaction::class, function (Faker $faker) {
-    $vendedor => Seller::has('products')->get()->random();
+    $vendedor = Seller::has('products')->get()->random();
     $comprador = User::all()->except($vendedor->id)->random();
     return [
         'quantity' => $faker->numberBetween(1, 3),

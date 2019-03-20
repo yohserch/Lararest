@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use App\Product;
 use Faker\Generator as Faker;
 
