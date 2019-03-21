@@ -53,11 +53,11 @@ class User extends Authenticatable
     ];
 
     public function isVerified() {
-        return $this->verified == USER::VERIFIED_USER;
+        return $this->verified == User::VERIFIED_USER;
     }
 
     public function isAdmin() {
-        return $this->admin == USER::ADMIN_USER;
+        return $this->admin == User::ADMIN_USER;
     }
 
     public static function generateVerificationToken() {
@@ -73,10 +73,10 @@ class User extends Authenticatable
     }
 
     public function setEmailAttribute($value) {
-        $this->attributes['email'] = strtolower($value)
+        $this->attributes['email'] = strtolower($value);
     }
 
     public function getNameAttribute($value) {
-        return ucwords($valor);
+        return ucwords($value);
     }
 }
