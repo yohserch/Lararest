@@ -75,6 +75,8 @@ class Handler extends ExceptionHandler
             if ($code == 1451) {
                 return $this->errorResponse('You can not permanently delete the resource because it is related to someone else.', 409);
             }
+        } else if($exception->getStatusCode() == 429) {
+            return $this->errorResponse('Too many request.', 429);
         }
 
         if (config('app.debug')) {
