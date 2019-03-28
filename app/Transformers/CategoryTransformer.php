@@ -46,7 +46,7 @@ class CategoryTransformer extends TransformerAbstract
         ];
     }
 
-    static function originalAttribute($index) {
+    public static function originalAttribute($index) {
         $attributes = [
             'id' => 'id',
             'title' => 'name',
@@ -54,6 +54,19 @@ class CategoryTransformer extends TransformerAbstract
             'creation_date' => 'created_at',
             'update_date' => 'updated_at',
             'delete_date' => 'deleted_at'
+        ];
+
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+    }
+
+    public static function transformedAttribute($index) {
+        $attributes = [
+            'id' => 'id',
+            'name' => 'title',
+            'description' => 'details',
+            'created_at' => 'creation_date',
+            'updated_at' => 'update_date',
+            'deleted_at' => 'delete_date'
         ];
 
         return isset($attributes[$index]) ? $attributes[$index] : null;

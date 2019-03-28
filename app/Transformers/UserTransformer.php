@@ -7,9 +7,6 @@ use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract
 {
-
-    const PRUEBA = "1";
-
     /**
      * A Fractal transformer.
      *
@@ -35,7 +32,7 @@ class UserTransformer extends TransformerAbstract
         ];
     }
 
-    static function originalAttribute($index) {
+    public static function originalAttribute($index) {
         $attributes = [
             'id' => 'id',
             'username' => 'name',
@@ -44,7 +41,26 @@ class UserTransformer extends TransformerAbstract
             'isAdministrator' => 'admin',
             'creation_date' => 'created_at',
             'update_date' => 'updated_at',
-            'delete_date' => 'deleted_at'
+            'delete_date' => 'deleted_at',
+            'password' => 'password',
+            'password_confirmation' => 'password_confirmation',
+        ];
+
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+    }
+
+    public static function transformedAttribute($index) {
+        $attributes = [
+            'id' => 'id',
+            'name' => 'username',
+            'email' => 'email',
+            'verified' => 'isVerified',
+            'admin' => 'isAdministrator',
+            'created_at' => 'creation_date',
+            'updated_at' => 'update_date',
+            'deleted_at' => 'delete_date',
+            'password' => 'password',
+            'password_confirmation' => 'password_confirmation',
         ];
 
         return isset($attributes[$index]) ? $attributes[$index] : null;

@@ -47,7 +47,7 @@ class TransactionTransformer extends TransformerAbstract
         ];
     }
 
-    static function originalAttribute($index) {
+    public static function originalAttribute($index) {
         $attributes = [
             'id' => 'id',
             'quantity' => 'quantity',
@@ -58,6 +58,20 @@ class TransactionTransformer extends TransformerAbstract
             'delete_date' => 'deleted_at'
         ];
 
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+    }
+
+    public static function transformedAttribute($index)
+    {
+        $attributes = [
+            'id' => 'id',
+            'quantity' => 'quantity',
+            'buyer_id' => 'buyer',
+            'product_id' => 'product',
+            'created_at' => 'creation_date',
+            'updated_at' => 'update_date',
+            'deleted_at' => 'delete_date',
+        ];
         return isset($attributes[$index]) ? $attributes[$index] : null;
     }
 }
