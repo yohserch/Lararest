@@ -11,6 +11,7 @@ class TransactionSellerController extends ApiController
     function __construct()
     {
         parent::__construct();
+        $this->middleware('scope:read-geneal')->only(['index']);
     }
     
     /**
