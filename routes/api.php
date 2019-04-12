@@ -144,3 +144,8 @@ Route::resource('users', 'User\UserController', [
 Route::name('verify')->get('users/verify/{token}', 'User\UserController@verify');
 
 Route::name('resend')->get('users/{user}/resend', 'User\UserController@resend');
+
+/*
+ * Oauth2 Routes
+ */
+Route::post('oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')->name('passport.token');

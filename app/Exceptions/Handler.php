@@ -2,16 +2,17 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use App\Traits\ApiResponser;
-use Illuminate\Database\QueryException;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Validation\ValidationException;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Session\TokenMismatchException;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -75,9 +76,15 @@ class Handler extends ExceptionHandler
             if ($code == 1451) {
                 return $this->errorResponse('You can not permanently delete the resource because it is related to someone else.', 409);
             }
-        } else if($exception->getStatusCode() == 429) {
-            return $this->errorResponse('Too many request.', 429);
+        } else if($exception instanceof TokenMismatchException) {
+            return redirect()->back()->withInput($request->input());
         }
+        /*
+          *  TODO: Corregir el manejo de las excepciones Too Many Request
+        */
+        // if($exception->getStatusCode() == 429) {
+        //     return $this->errorResponse('Too many request.', 429);
+        // }
 
         if (config('app.debug')) {
             return parent::render($request, $exception);
@@ -96,6 +103,13 @@ class Handler extends ExceptionHandler
     {
         $errors = $e->validator->errors()->getMessages();
 
+        if($this->isFrontend($request)) {
+            return $request->ajax() ? response()->json($errors, 422) : redirect()
+                ->back()
+                ->withInput($request->input())
+                ->withErrors($errors);
+        }
+
         return $this->errorResponse($errors, 422);
     }
 
@@ -108,6 +122,13 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
+        if($this->isFrontend($request))
+            return redirect()->guest('login');
         return $this->errorResponse('Unauthenticated.', 401);
+    }
+
+
+    private function isFrontend($request) {
+        return $request->acceptsHtml() && collect($request->route()->middleware())->contains('web');
     }
 }
