@@ -16,6 +16,10 @@ class UserController extends ApiController
         $this->middleware('auth:api')->except(['store', 'resend', 'verify']);
         $this->middleware('transform.input:'.UserTransformer::class)->only(['store', 'update']);
         $this->middleware('scope:manage-account')->only(['show', 'update']);
+
+        $this->middleware('can:view,user')->only('show');
+        $this->middleware('can:update,user')->only('update');
+        $this->middleware('can:destroy,user')->only('destroy');
     }
     /**
      * Display a listing of the resource.
@@ -24,6 +28,8 @@ class UserController extends ApiController
      */
     public function index()
     {
+        $this->allowedAdminAction();
+
         $users = User::all();
         return $this->showAll($users);
     }
@@ -74,6 +80,8 @@ class UserController extends ApiController
      */
     public function update(Request $request, User $user)
     {
+        $this->allowedAdminAction();
+        
         $rules = [
             'password' => 'min:6|confirmed',
             'email' => 'email|unique:users,email,'.$user->id,
