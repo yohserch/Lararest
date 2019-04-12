@@ -136,6 +136,8 @@ Route::resource('sellers.products', 'Seller\SellerProductController', [
 /**
  * Users
  */
+Route::name('me')->get('users/me', 'User\UserController@me');
+
 Route::resource('users', 'User\UserController', [
     'except' => ['create', 'edit']
 ]
